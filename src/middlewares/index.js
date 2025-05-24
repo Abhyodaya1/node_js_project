@@ -1,3 +1,3 @@
-module.expots = {
+module.exports = {
     Airplanemiddleware: require('./airplane-middleware')
 }

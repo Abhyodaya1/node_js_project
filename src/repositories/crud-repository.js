@@ -1,4 +1,6 @@
- const { logger } = require('../config');
+ const { StatusCodes } = require('http-status-codes');
+const { logger } = require('../config');
+const AppError = require('../utils/errors/app-error');
 
  class CrudRepository {
     constructor (model)
@@ -7,18 +9,12 @@
     }
 
  async create(data){
-    try{
         const response = await this.model.create(data);
-        return response;
-    }
-    catch (error) {
-        logger.error('Error creating record:', error);
-        throw error;
-    }
+        return response;   
  }
 
   async destroy(data){
-    try{
+   
         const response = await this.model.destroy({
             where:{
                 id: data
@@ -26,36 +22,27 @@
         });
         return response;
     }
-    catch (error) {
-        logger.error('Error deleting record:', error);
-        throw error;
-    }
- }
 
   async get(data){
-    try{
+    
         const response = await this.model.findByPk(data);
+        if(!response)
+        {
+            throw new AppError('not able to find it',StatusCodes.NOT_FOUND)
+        }
         return response;
+   
     }
-    catch (error) {
-        logger.error('Error getting record:', error);
-        throw error;
-    }
- }
+
 
 async getAll(){
-    try{
         const response = await this.model.findAll();
         return response;
-    }
-    catch (error) {
-        logger.error('Error getting all records:', error);
-        throw error;
-    }
+ 
 }
 
  async update(id, data){
-        try{
+        
             const response = await this.model.update(data, {
                 where:{
                     id: id
@@ -63,10 +50,6 @@ async getAll(){
             });
             return response;
         }
-        catch (error) {
-            logger.error('Error updating record:', error);
-            throw error;
-        }
-    }
+       
 }
  module.exports = CrudRepository;
