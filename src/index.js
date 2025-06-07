@@ -16,7 +16,18 @@ app.use(express.urlencoded({extended:true}));
 app.use('/api' , apiroutes);
 
 
-app.listen(Serverconfig.PORT,() => {
+app.listen(Serverconfig.PORT, async () => {
     console.log(`Server is running on port ${Serverconfig.PORT}`);
     logger.info("successfull")
+     const{Airports, City} = require('./models');
+     const cities = await City.findAll();
+     console.log("Cities:", cities.map(city => city.name));
+     const airport = await Airports.create({name: 'indira gandhi international airport', code: 'DEL', address: 'New Delhi, India', cityID: 1});
+     console.log("Airport created:", airport.name);
+
+     await City.destroy({
+        where: {
+            id:4
+        }
+     })
 });
