@@ -1,3 +1,4 @@
 module.exports = {
-    airplaneservice: require("./airplaneservice")
+    airplaneservice: require("./airplaneservice"),
+    cityservice: require("./cityservice"),
 }

@@ -20,6 +20,10 @@ const AppError = require('../utils/errors/app-error');
                 id: data
             }
         });
+         if(!response)
+        {
+            throw new AppError('not able to find it',StatusCodes.NOT_FOUND)
+        }
         return response;
     }
 

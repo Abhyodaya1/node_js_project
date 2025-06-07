@@ -9,8 +9,8 @@ async function createAirplane(data){
         const response = await airplanerepo.create(data);
         return response;
       }
-      catch(error){
-        if(error.name == 'SequelizeValidationError')
+      catch(error){ 
+               if(error.name === 'SequelizeValidationError' || error.name === 'SequelizeUniqueConstraintError')
         {
           let explanation = [];
           error.errors.forEach((err) => {
@@ -20,8 +20,8 @@ async function createAirplane(data){
         throw new AppError(explanation, StatusCodes.BAD_REQUEST);
         }
      throw new AppError('cannot create a new airplane object', StatusCodes.INTERNAL_SERVER_ERROR);
-      }
-}
+    
+}}
 
 async function getairplanes()
 {
@@ -52,8 +52,25 @@ async function getairplane(id)
   }
 }
 
+async function destroyairplane(id)
+{
+  try
+  {
+    const airplanes = await airplanerepo.destroy(id);
+    return airplanes;
+  }
+  catch(error){
+     if(error.statusCode == StatusCodes.NOT_FOUND || error.name == 'SequelizeValidationError')
+    {
+      throw new AppError('it is not present',error.statusCode)
+    }
+ throw new AppError('cannot connect', StatusCodes.INTERNAL_SERVER_ERROR);
+  }
+}
+
 module.exports = {
     createAirplane,
     getairplanes,
-    getairplane
+    getairplane,
+    destroyairplane
 }

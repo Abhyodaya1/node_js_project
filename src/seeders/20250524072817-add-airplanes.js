@@ -13,13 +13,13 @@ module.exports = {
      * }], {});
     */
    await queryInterface.bulkInsert('airplanes',[{
-    modelnumber: 'airbus380',
+    modelNumber: 'airbus380',
     capacity:900,
     createdAt: new Date(),
     updatedAt: new Date()
    },
   {
-    modelnumber:'boeing777',
+    modelNumber:'boeing777',
     capacity: 450,
     createdAt: new Date(),
     updatedAt: new Date()
@@ -34,6 +34,6 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
-    await queryInterface.bulkDelete('airplanes',{[Op.or]:[{modelnumber:'boeing777'},{modelnumber:'airbus380'}]})
+    await queryInterface.bulkDelete('airplanes',{[Op.or]:[{modelNumber:'boeing777'},{modelNumber:'airbus380'}]})
   }
 };
