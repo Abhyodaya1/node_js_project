@@ -1,23 +1,25 @@
  const { StatusCodes } = require("http-status-codes");
-const { airplaneservice } = require("../services");
+const {  airportsservice } = require("../services");
 const {Successresponse,Errorresponse}= require('../utils/common')
 const AppError =  require('../utils/errors/app-error')
 
-async function  createAirplane(req,res)
+async function  CreateAirports(req,res)
 {
     try
     {
-       const airplane = await airplaneservice.createAirplane({
-         modelNumber: req.body.modelNumber,
-         capacity: req.body.capacity
+       const airport = await airportsservice.createAirports({
+        name:req.body.name,
+        code:req.body.code,
+        address:req.body.address,
+        cityID:req.body.cityID
        });
-       console.log('Creating airplane with:', req.body);
-       Successresponse.data = airplane
+       console.log('Creating airport with:', req.body);
+       Successresponse.data = airport
        return res
         .status(StatusCodes.CREATED)
         .json(Successresponse)
     }catch(error)
-    { console.error('❌ Error creating airplane:', error); 
+    { console.error('❌ Error creating airport:', error); 
         Errorresponse.error = error
         Errorresponse.message = 'something went wrong'
         return res
@@ -26,12 +28,12 @@ async function  createAirplane(req,res)
     }
 }
 
-async function  getairplanes(req,res)
+async function  Getairports(req,res)
 {
     try
     {
-       const airplane = await airplaneservice.getairplanes();
-       Successresponse.data = airplane
+       const airports = await airportsservice.getairports();
+       Successresponse.data = airports
        return res
         .status(StatusCodes.OK)
         .json(Successresponse)
@@ -44,12 +46,12 @@ async function  getairplanes(req,res)
     }
 }
 
-async function  getairplane(req,res)
+async function  Getairport(req,res)
 {
     try
     {
-       const airplane = await airplaneservice.getairplane(req.params.id);
-       Successresponse.data = airplane;
+       const data = await airportsservice.getairport(req.params.id);
+       Successresponse.data = data;
        return res
         .status(StatusCodes.OK)
         .json(Successresponse)
@@ -62,12 +64,12 @@ async function  getairplane(req,res)
     }
 }
 
-async function  destroyairplane(req,res)
+async function  Destroyairports(req,res)
 {
     try
     {
-       const airplane = await airplaneservice.destroyairplane(req.params.id);
-       Successresponse.data = airplane;
+       const data = await airportsservice.destroyairports(req.params.id);
+       Successresponse.data = data;
        return res
         .status(StatusCodes.OK)
         .json(Successresponse)
@@ -80,8 +82,8 @@ async function  destroyairplane(req,res)
     }
 }
 module.exports = {
-    createAirplane,
-    getairplanes,
-    getairplane,
-    destroyairplane
+    CreateAirports,
+    Getairport,
+    Getairports,
+    Destroyairports
 }

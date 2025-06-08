@@ -1,5 +1,5 @@
 const { StatusCodes } = require('http-status-codes');
-const { Airplanerepo } = require('../repositories');
+const {  Airportsrepo, Airplanerepo } = require('../repositories');
 const AppError =  require('../utils/errors/app-error')
 
 const airplanerepo = new Airplanerepo();
@@ -68,9 +68,10 @@ async function destroyairplane(id)
   }
 }
 
+
 module.exports = {
     createAirplane,
-    getairplanes,
     getairplane,
+    getairplanes,
     destroyairplane
 }
