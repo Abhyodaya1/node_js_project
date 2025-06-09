@@ -77,7 +77,7 @@ if(query.sort)
 }
   try {
     const flights = await flightsrepo.getallflights(customfilter);
-        // ❗ Move the check *after* the query
+        // ❗ Move the check *after* the query  
     if (!flights || flights.length === 0) {
       return {
         message: 'No flights found in the given criteria',
@@ -86,6 +86,7 @@ if(query.sort)
     }
     return flights;
   } catch (err) {
+    console.log(err);
     throw new AppError('Cannot fetch data of all flights', StatusCodes.INTERNAL_SERVER_ERROR);
   }
 }
