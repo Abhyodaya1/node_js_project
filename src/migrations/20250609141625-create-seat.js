@@ -1,7 +1,6 @@
 'use strict';
 /** @type {import('sequelize-cli').Migration} */
-const {seattypes} = require('../utils/common') 
-const {BUSINESS,ECONOMY,PREMIUM_ECONOMY,FIRST_CLASS} = seattypes.SEAT_TYPE
+const { BUSINESS, ECONOMY, PREMIUM_ECONOMY, FIRST_CLASS } = SEAT_TYPE;
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('Seats', {
@@ -21,7 +20,12 @@ module.exports = {
       },
       airplaneid: {
         type: Sequelize.INTEGER,
-        allowNull:false
+        allowNull:false,
+        refrences:{
+          model:'Airplanes',
+          key:'id'
+        },
+        onDelete: 'CASCADE'
       },
       type: {
         type: Sequelize.ENUM,
