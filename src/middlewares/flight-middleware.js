@@ -54,4 +54,16 @@ if (!req.body.totalseats) {
     next();
 }
 
-module.exports = { validatecreaterequest };
+function validateupdateseats(req,res,next)
+{
+if (!req.body.seats) {
+    Errorresponse.message = 'something went wrong';
+    Errorresponse.error = new AppError('eats not present in the request', StatusCodes.BAD_REQUEST);
+    return res.status(StatusCodes.BAD_REQUEST).json(Errorresponse);
+}
+    next();  
+}
+
+module.exports = { validatecreaterequest,
+    validateupdateseats
+ };

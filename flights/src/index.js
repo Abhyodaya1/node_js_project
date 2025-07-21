@@ -6,7 +6,8 @@ const apiroutes = require('./routes')
 
 // app.get('/api/v1/blogs', (req,res)=>{
 //  new thing this doesnt look tiddy so make things clean we use express routing
-
+app.use(express.json());
+app.use(express.urlencoded({extended:true}));
 app.use('/api' , apiroutes);
 
 

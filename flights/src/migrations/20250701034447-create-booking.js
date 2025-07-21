@@ -18,6 +18,10 @@ module.exports = {
         allowNull: false,
         type: Sequelize.INTEGER
       },
+      noofseats:{
+   allowNull:false,
+   type:Sequelize.INTEGER
+      },
       status: {
         type: Sequelize.ENUM,
         defaultValue: BOOKING_STATUS.INITIATED,

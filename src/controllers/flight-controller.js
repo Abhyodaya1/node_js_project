@@ -69,8 +69,32 @@ async function  Getflight(req,res)
         .json(Errorresponse)
     }
 }
+ async function updateseats(req, res) {
+  try {
+    const seats = req.body.seats || req.query.seats; // Support both body and query
+    const dec = req.body.dec !== undefined ? req.body.dec : req.query.dec; // Support both
+    if (!seats) {
+      throw new AppError('Seats parameter is required', StatusCodes.BAD_REQUEST);
+    }
+    const response = await flightsservice.updateseats({
+      flightid: req.params.flightid,
+      seats: Number(seats), // Convert to number
+      dec: dec !== undefined ? dec : true // Default to decrement if not provided
+    });
+    Successresponse.data = response; // Fix variable name
+    return res
+      .status(StatusCodes.OK)
+      .json(Successresponse);
+  } catch (error) {
+    Errorresponse.error = error;
+    return res
+      .status(error.statusCode || StatusCodes.INTERNAL_SERVER_ERROR)
+      .json(Errorresponse);
+  }
+}
 module.exports = {
     Createflights,
     getallflights,
-    Getflight
+    Getflight,
+    updateseats
 }

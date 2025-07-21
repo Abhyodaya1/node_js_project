@@ -1,7 +1,8 @@
 const { StatusCodes } = require('http-status-codes');
 const { Airportsrepo, Flightsrepo } = require('../repositories');
 const AppError =  require('../utils/errors/app-error')
-const {Op} = require('sequelize')
+const {Op} = require('sequelize');
+const { Errorresponse } = require('../utils/common');
 
 const flightsrepo = new Flightsrepo();
 
@@ -91,10 +92,43 @@ if(query.sort)
   }
 }
 
+async function getflight(id){
+  try
+  {
+    const flight = await flightsrepo.get(id); 
+    return flight;
+  }
+  catch(error){
+    if(error.statusCode == StatusCodes.NOT_FOUND || error.name == 'SequelizeValidationError')
+    {
+      throw new AppError('it is not present',error.statusCode)
+    }
+    console.log(error);
+ throw new AppError('cannot connect', StatusCodes.INTERNAL_SERVER_ERROR);
+  } 
+}
+
+async function updateseats(data) {
+  try {
+    if (!data.seats || isNaN(data.seats) || data.seats <= 0) {
+      throw new AppError('Valid seats parameter is required', StatusCodes.BAD_REQUEST);
+    }
+    const response = await flightsrepo.updateremainingseats(data.flightid, data.seats, data.dec);
+    return response;
+  } catch (error) {
+    console.log(error);
+    throw new AppError(
+      error.message || 'Cannot update data of a flight',
+      error.statusCode || StatusCodes.INTERNAL_SERVER_ERROR
+    );
+  }
+}
 
 
 
 module.exports = {
     createflights,
-    getallflights
+    getallflights,
+    getflight,
+    updateseats
 }

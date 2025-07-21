@@ -13,5 +13,13 @@ router.post('/',
 router.get('/',
     fightcontroller.getallflights
 )
+router.get('/:id ',
+    fightcontroller.Getflight
+)
+
+router.patch('/:flightid/seats',
+    flightmiddlewares.validateupdateseats,
+    fightcontroller.updateseats
+)
 
 module.exports = router;

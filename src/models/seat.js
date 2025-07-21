@@ -2,7 +2,8 @@
 const {
   Model
 } = require('sequelize');
-const { SEAT_TYPE } = require('../utils/common/enums');
+const { SEAT_TYPE } = require('../utils/common/enum.js');
+
 
 module.exports = (sequelize, DataTypes) => {
   class Seat extends Model {
